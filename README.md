@@ -38,19 +38,19 @@ Run the application.
 
 ## VS Code Quality of Life
 
-There's a `.vscode` folder in the repository with nice stuff setup such as auto-formatting.
+There's a `.vscode` folder in the repository with nice stuff set up such as auto-formatting and removing trailing spaces.
 
-In order to set it up:
+In order to set auto-formatting up:
 
 ### For Python
 
-1. With opened file Python file hit F1 and run "Format Document".
+1. With Python file opened hit F1 and run "Format Document".
 2. A prompt should pop up asking you to install autopep8.
 
 ### For Javascript
 
 1. Download "Prettier" extension inside Vscode.
-2. With opened Javascript file hit F1 and run "Format Document".
+2. With Javascript file opened hit F1 and run "Format Document".
 3. When prompted - select "Prettier" code formatter.
 
 If done correctly your code should be formatted automatically each time you save.
