@@ -20,10 +20,12 @@ from opcol import views
 
 router = routers.DefaultRouter()
 
-# TODO: Add routes for Product, Opinion, User, and Category.
+# TODO: Add routes for Opinion, User, and Category.
 # router.register(r'users', views.UserView, 'opcol')
+router.register(r'products', views.ProductView, 'products')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/products/', include(router.urls)),
 ]

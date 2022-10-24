@@ -1,4 +1,9 @@
 from rest_framework import serializers
-from .models import Product, Opinion, User, Category
+from .models import Product
 
-# TODO: Add serializers for Product, Opinion, User, and Category.
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'description', 'ingredients')
+
+# TODO: Add serializers for Opinion, User, and Category.
