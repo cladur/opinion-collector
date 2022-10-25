@@ -23,6 +23,7 @@ router = routers.DefaultRouter()
 # TODO: Add routes for Opinion, User, and Category.
 # router.register(r'users', views.UserView, 'opcol')
 router.register(r'products', views.ProductView, 'products')
+router.register(r'opinions', views.OpinionView, 'opinions')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,5 +1,7 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
+from backend import settings
 
 # Create your models here.
 
@@ -15,7 +17,11 @@ class Product(models.Model):
 
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    date = models.DateField(("data"), auto_now=False, auto_now_add=False)
+    description = models.CharField(max_length=255, default="description placeholder")
+
     # TODO(Opinion): Add more fields - score, description, etc.
+
 
     def __str__(self):
         return self.product.name
