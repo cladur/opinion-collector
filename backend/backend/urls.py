@@ -21,7 +21,7 @@ from opcol import views
 router = routers.DefaultRouter()
 
 # TODO: Add routes for Opinion, User, and Category.
-# router.register(r'users', views.UserView, 'opcol')
+router.register(r'users', views.UserView, 'users')
 router.register(r'products', views.ProductView, 'products')
 router.register(r'opinions', views.OpinionView, 'opinions')
 

@@ -2,6 +2,8 @@ from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from backend import settings
+from datetime import date
+
 
 # Create your models here.
 
@@ -22,7 +24,6 @@ class Opinion(models.Model):
 
     # TODO(Opinion): Add more fields - score, description, etc.
 
-
     def __str__(self):
         return self.product.name
 
@@ -32,10 +33,13 @@ class Opinion(models.Model):
 
 class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
-    # TODO(User): Add more fields - username, date_joined, etc.
+    user_name = models.CharField(max_length=60)
+    date_joined = models.DateField(("data"), auto_now=False, auto_now_add=False)
+    last_login = models.DateField(("data"), auto_now=False, auto_now_add=False)
+    password_hash = models.CharField(max_length=60)  # W przyszlosci bedzie szyfrowane
 
     def __str__(self):
-        return self.username
+        return self.user_name
 
 
 class Category(models.Model):
