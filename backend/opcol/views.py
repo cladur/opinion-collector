@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import OpinionSerializer, ProductSerializer
-from .models import Opinion, Product
+from .serializers import OpinionSerializer, ProductSerializer, UserSerializer
+from .models import Opinion, Product, User
 
 # Create your views here.
 

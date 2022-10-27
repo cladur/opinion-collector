@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Opinion, Product
+from .models import Opinion, Product, User
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -7,12 +7,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OpinionAdmin(admin.ModelAdmin):
-    list_display = ('product','date','description')
+    list_display = ('product', 'date', 'description')
 # Register your models here.
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('is_admin', 'user_name', 'date_joined', 'last_login', 'password_hash')
+    list_display = ('is_admin', 'username', 'date_joined', 'password_hash')
 
 
 admin.site.register(Product, ProductAdmin)

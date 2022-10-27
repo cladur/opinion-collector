@@ -1,6 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
-from .models import Opinion, Product
+from .models import Opinion, Product, User
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -10,13 +10,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
 # TODO: Add serializers for Opinion, User, and Category.
 
+
 class OpinionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinion
-        fields = ('product', 'date', 'description')
+        fields = ('id', 'product', 'date', 'description')
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('is_admin', 'user_name', 'date_joined', 'last_login', 'password_hash')
+        fields = ('id', 'is_admin', 'username', 'date_joined', 'password_hash')

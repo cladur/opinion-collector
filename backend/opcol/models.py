@@ -10,8 +10,10 @@ from datetime import date
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=255, default="description placeholder")
-    ingredients = models.CharField(max_length=255, default="ingredients placeholder")
+    description = models.CharField(
+        max_length=255, default="description placeholder")
+    ingredients = models.CharField(
+        max_length=255, default="ingredients placeholder")
 
     def __str__(self):
         return self.name
@@ -20,7 +22,8 @@ class Product(models.Model):
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     date = models.DateField(("data"), auto_now=False, auto_now_add=False)
-    description = models.CharField(max_length=255, default="description placeholder")
+    description = models.CharField(
+        max_length=255, default="description placeholder")
 
     # TODO(Opinion): Add more fields - score, description, etc.
 
@@ -33,10 +36,10 @@ class Opinion(models.Model):
 
 class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
-    user_name = models.CharField(max_length=60)
-    date_joined = models.DateField(("data"), auto_now=False, auto_now_add=False)
-    last_login = models.DateField(("data"), auto_now=False, auto_now_add=False)
-    password_hash = models.CharField(max_length=60)  # W przyszlosci bedzie szyfrowane
+    username = models.CharField(max_length=60)
+    date_joined = models.DateField(("data"), auto_now=False, auto_now_add=True)
+    # W przyszlosci bedzie szyfrowane
+    password_hash = models.CharField(max_length=60)
 
     def __str__(self):
         return self.user_name
