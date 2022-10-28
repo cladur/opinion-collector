@@ -46,8 +46,12 @@ class User(AbstractBaseUser):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default="Miscellaneous")
     # TODO(Category): Add more fields - description, etc.
+    description = models.CharField(
+        max_length=200, default="---")
+    is_final = models.BooleanField(
+        default=False)
 
     def __str__(self):
         return self.name

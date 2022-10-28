@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import OpinionSerializer, ProductSerializer, UserSerializer
-from .models import Opinion, Product, User
+from .serializers import OpinionSerializer, ProductSerializer, UserSerializer, CategorySerializer
+from .models import Opinion, Product, User, Category
 
 # Create your views here.
 
@@ -19,3 +19,8 @@ class OpinionView(viewsets.ModelViewSet):
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
+
+class CategoryView(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
