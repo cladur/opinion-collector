@@ -15,7 +15,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['email', 'username', 'date_joined']
+    list_display = ['email', 'username', 'date_joined', 'is_staff']
 
 
 class CategoryAdmin(admin.ModelAdmin):
