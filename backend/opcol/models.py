@@ -19,9 +19,17 @@ class Product(models.Model):
         return self.name
 
 
+class CustomUser(AbstractUser):
+    pass
+
+    def __str__(self):
+        return self.username
+
+
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    date = models.DateField(("data"), auto_now=False, auto_now_add=False)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
         max_length=255, default="description placeholder")
 
@@ -29,16 +37,6 @@ class Opinion(models.Model):
 
     def __str__(self):
         return self.product.name
-
-
-class User(AbstractUser):
-    is_admin = models.BooleanField(default=False)
-    date_joined = models.DateField(("data"), auto_now=False, auto_now_add=True)
-    # Password will be hashed in the future
-    password_hash = models.CharField(max_length=60)
-
-    def __str__(self):
-        return self.username
 
 
 class Category(models.Model):

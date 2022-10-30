@@ -142,9 +142,9 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTH_USER_MODEL = 'opcol.CustomUser'
+
 # configure Djoser
 DJOSER = {
-    "USER_ID_FIELD": "username"
+    "USER_ID_FIELD": "username",
 }
-
-AUTH_USER_MODEL = 'opcol.User'
