@@ -38,7 +38,7 @@ class User(AbstractUser):
     password_hash = models.CharField(max_length=60)
 
     def __str__(self):
-        return self.user_name
+        return self.username
 
 
 class Category(models.Model):

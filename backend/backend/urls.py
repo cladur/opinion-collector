@@ -20,8 +20,7 @@ from opcol import views
 
 router = routers.DefaultRouter()
 
-# TODO: Add routes for Opinion, User, and Category.
-router.register(r'users', views.UserView, 'users')
+# router.register(r'users', views.UserView, 'users')
 router.register(r'products', views.ProductView, 'products')
 router.register(r'opinions', views.OpinionView, 'opinions')
 router.register(r'categories', views.CategoryView, 'categories')
@@ -29,4 +28,6 @@ router.register(r'categories', views.CategoryView, 'categories')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/', include('djoser.urls')),
+    path('api/', include('djoser.urls.authtoken')),
 ]
