@@ -6,8 +6,8 @@
 
 1. Install python
 2. Install pip by running `py -m ensurepip --upgrade` command on Windows
-3. Navigate to project directory
-4. Run `pipenv shell` and `pipenv install django djangorestframework django-cors-headers`.
+3. Navigate to `backend` directory
+4. Run `pipenv shell` and `pipenv install django djangorestframework django-cors-headers djoser`.
 
 ### Working with the environment
 
@@ -28,7 +28,7 @@ To run the server. (Access at [localhost:8000](localhost:8000))
 ### Setting up the environment
 
 1. [Install Node.js](https://nodejs.org/en/)
-2. I think that's it? Not sure.
+2. Run `npm install create-react-app reacts-scripts --force`. We use `--force`, because some versions of modules were deprecated, but there are no tutorials for newer versions of them :(
 
 ### Working with the environment
 
