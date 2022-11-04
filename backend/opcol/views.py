@@ -11,13 +11,14 @@ class IsAdminUserOrReadOnly(permissions.IsAdminUser):
         return request.method in permissions.SAFE_METHODS or is_admin
 
 
-class IsNotAdminOrReadOnly(permissions.IsAdminUser):
+class IsAuthenticatedButNotAdminOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
     def has_permission(self, request, view):
-        is_admin = super().has_permission(request, view)
-        return request.method in permissions.SAFE_METHODS or not is_admin
+        is_authenticated = super().has_permission(request, view)
+        is_admin = permissions.IsAdminUser.has_permission(self, request, view)
+        return request.method in permissions.SAFE_METHODS or (not is_admin and is_authenticated)
+
 
 # Create your views here.
-
 
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
@@ -28,7 +29,7 @@ class ProductView(viewsets.ModelViewSet):
 class OpinionView(viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
     queryset = Opinion.objects.all()
-    permission_classes = [IsNotAdminOrReadOnly]
+    permission_classes = [IsAuthenticatedButNotAdminOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
@@ -42,4 +43,4 @@ class CustomUserView(viewsets.ModelViewSet):
 class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUserOrReadOnly]
