@@ -1,7 +1,12 @@
 import axios from "axios";
 import { push } from "connected-react-router";
 import { toast } from "react-toastify";
-import { SET_TOKEN, SET_CURRENT_USER, UNSET_CURRENT_USER } from "./LoginTypes";
+import {
+  SET_TOKEN,
+  SET_CURRENT_USER,
+  UNSET_CURRENT_USER,
+  SET_CURRENT_USER_ERROR,
+} from "./LoginTypes";
 import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
 export const login = (userData, redirectTo) => (dispatch) => {
@@ -14,8 +19,11 @@ export const login = (userData, redirectTo) => (dispatch) => {
       dispatch(getCurrentUser(redirectTo));
     })
     .catch((error) => {
-      dispatch(unsetCurrentUser());
-      toastOnError(error);
+      dispatch({
+        type: SET_CURRENT_USER_ERROR,
+        errorData: error.response.data,
+      });
+      // toastOnError(error);
     });
 };
 
@@ -31,7 +39,7 @@ export const getCurrentUser = (redirectTo) => (dispatch) => {
     })
     .catch((error) => {
       dispatch(unsetCurrentUser());
-      toastOnError(error);
+      // toastOnError(error);
     });
 };
 
@@ -72,7 +80,7 @@ export const logout = () => (dispatch) => {
     .then((response) => {
       dispatch(unsetCurrentUser());
       dispatch(push("/"));
-      toast.success("Logout successful.");
+      // toast.success("Logout successful.");
     })
     .catch((error) => {
       dispatch(unsetCurrentUser());

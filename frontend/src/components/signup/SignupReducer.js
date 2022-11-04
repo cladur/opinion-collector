@@ -9,7 +9,7 @@ import {
 const initialState = {
   usernameError: "",
   passwordError: "",
-  isSubimtted: false,
+  isSubmitted: false,
 };
 
 // define how action will change the state of the store
@@ -19,13 +19,13 @@ export const signupReducer = (state = initialState, action) => {
       return {
         usernameError: "",
         passwordError: "",
-        isSubimtted: true,
+        isSubmitted: true,
       };
     case CREATE_USER_ERROR:
       const errorState = {
         usernameError: "",
         passwordError: "",
-        isSubimtted: false,
+        isSubmitted: false,
       };
       if (action.errorData.hasOwnProperty("username")) {
         errorState.usernameError = action.errorData["username"];
@@ -38,7 +38,7 @@ export const signupReducer = (state = initialState, action) => {
       return {
         usernameError: "",
         passwordError: "",
-        isSubimtted: false,
+        isSubmitted: false,
       };
     default:
       return state;

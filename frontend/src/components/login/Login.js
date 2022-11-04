@@ -36,23 +36,30 @@ class Login extends Component {
               <Form.Group className="mb-3" controlId="usernameId">
                 <Form.Label>User name</Form.Label>
                 <Form.Control
+                  isInvalid={this.props.auth.usernameError}
                   type="text"
                   name="username"
                   placeholder="Enter user name"
                   value={this.state.username}
                   onChange={this.onChange}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {this.props.auth.usernameError}
+                </Form.Control.Feedback>
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="passwordId">
                 <Form.Label>Your password</Form.Label>
                 <Form.Control
+                  isInvalid={this.props.auth.passwordError}
                   type="password"
                   name="password"
                   placeholder="Enter password"
                   value={this.state.password}
                   onChange={this.onChange}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {this.props.auth.passwordError}
+                </Form.Control.Feedback>
               </Form.Group>
             </Form>
             <Button color="primary" onClick={this.onLoginClick}>
