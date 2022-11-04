@@ -4,22 +4,22 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'ingredients')
+    list_display = ('id', 'name', 'description', 'ingredients')
 
 
 class OpinionAdmin(admin.ModelAdmin):
-    list_display = ('product', 'created_by', 'created_at', 'description')
+    list_display = ('id', 'product', 'created_by', 'created_at', 'description')
 
 
 class CustomUserAdmin(admin.ModelAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['email', 'username', 'date_joined', 'is_staff']
+    list_display = ['id', 'email', 'username', 'date_joined', 'is_staff']
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'is_final')
+    list_display = ('id', 'name', 'description', 'is_final')
 
 
 admin.site.register(Product, ProductAdmin)

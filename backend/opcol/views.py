@@ -2,6 +2,19 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer
 from .models import Opinion, Product, CustomUser, Category
+from rest_framework import permissions
+
+
+class IsAdminUserOrReadOnly(permissions.IsAdminUser):
+    def has_permission(self, request, view):
+        is_admin = super().has_permission(request, view)
+        return request.method in permissions.SAFE_METHODS or is_admin
+
+
+class IsNotAdminOrReadOnly(permissions.IsAdminUser):
+    def has_permission(self, request, view):
+        is_admin = super().has_permission(request, view)
+        return request.method in permissions.SAFE_METHODS or not is_admin
 
 # Create your views here.
 
@@ -9,11 +22,13 @@ from .models import Opinion, Product, CustomUser, Category
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    permission_classes = [IsAdminUserOrReadOnly]
 
 
 class OpinionView(viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
     queryset = Opinion.objects.all()
+    permission_classes = [IsNotAdminOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
@@ -27,3 +42,4 @@ class CustomUserView(viewsets.ModelViewSet):
 class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
