@@ -6,8 +6,7 @@ import { withRouter } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { logout } from "../login/LoginActions";
 
-import ProductsList from "../products/ProductsList";
-import AddProduct from "../products/AddProduct";
+import ProductsList from "./ProductsList";
 
 class Catalog extends Component {
   onLogout = () => {
@@ -19,7 +18,6 @@ class Catalog extends Component {
       <div>
         <Container>
           <ProductsList />
-          <AddProduct />
         </Container>
       </div>
     );

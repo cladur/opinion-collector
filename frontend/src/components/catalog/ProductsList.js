@@ -2,30 +2,35 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getProducts } from "./ProductsActions";
-
-import Product from "./Product";
+import { getProducts } from "../product_api/ProductsActions";
 
 class ProductsList extends Component {
   componentDidMount() {
     this.props.getProducts();
   }
 
+  listProducts(products) {
+    return products.map((product) => {
+      return (
+        <div key={product.id}>
+          <a href={"/products/" + product.id}>{product.name}</a>
+          <p>{product.description}</p>
+        </div>
+      );
+    });
+  }
+
   render() {
     const { products } = this.props.products;
 
     if (products.length === 0) {
-      return <h2>Please add your first product</h2>;
+      return <h2>There are no products!</h2>;
     }
-
-    let items = products.map((product) => {
-      return <Product key={product.id} product={product} />;
-    });
 
     return (
       <div>
         <h2>Products</h2>
-        {items}
+        {this.listProducts(products)}
       </div>
     );
   }

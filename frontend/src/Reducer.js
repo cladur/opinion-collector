@@ -3,7 +3,7 @@ import { connectRouter } from "connected-react-router";
 
 import { signupReducer } from "./components/signup/SignupReducer";
 import { loginReducer } from "./components/login/LoginReducer";
-import { productsReducer } from "./components/products/ProductsReducer";
+import { productsReducer } from "./components/product_api/ProductsReducer";
 
 const createRootReducer = (history) =>
   combineReducers({

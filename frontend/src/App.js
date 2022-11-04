@@ -4,13 +4,11 @@ import { ToastContainer } from "react-toastify";
 
 import Root from "./Root";
 
-import requireAuth from "./utils/RequireAuth";
-
-import Home from "./components/Home";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Catalog from "./components/catalog/Catalog";
 import Navigation from "./components/Navigation";
+import Product from "./components/product/Product";
 
 import axios from "axios";
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -25,8 +23,9 @@ class App extends Component {
           <Switch>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/catalog" component={requireAuth(Catalog)} />
-            <Route exact path="/" component={Home} />
+            <Route path="/products/:id" component={Product} />
+            <Route path="/catalog" component={Catalog} />
+            <Route exact path="/" component={Catalog} />
             <Route path="*">
               <h1 className="text-center">
                 The URL you specified is incorrect, it doesn't match with any

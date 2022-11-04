@@ -50,7 +50,6 @@ export const setCurrentUser = (user, redirectTo) => (dispatch) => {
     payload: user,
   });
 
-  console.log("set user" + redirectTo);
   if (redirectTo !== "") {
     dispatch(push(redirectTo));
   }
