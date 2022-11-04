@@ -9,7 +9,7 @@ import requireAuth from "./utils/RequireAuth";
 import Home from "./components/Home";
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
-import Dashboard from "./components/dashboard/Dashboard";
+import Catalog from "./components/catalog/Catalog";
 import Navigation from "./components/Navigation";
 
 import axios from "axios";
@@ -25,7 +25,7 @@ class App extends Component {
           <Switch>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={requireAuth(Dashboard)} />
+            <Route path="/catalog" component={requireAuth(Catalog)} />
             <Route exact path="/" component={Home} />
             <Route path="*">
               <h1 className="text-center">

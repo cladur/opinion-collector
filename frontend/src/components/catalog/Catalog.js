@@ -9,7 +9,7 @@ import { logout } from "../login/LoginActions";
 import ProductsList from "../products/ProductsList";
 import AddProduct from "../products/AddProduct";
 
-class Dashboard extends Component {
+class Catalog extends Component {
   onLogout = () => {
     this.props.logout();
   };
@@ -26,7 +26,7 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.propTypes = {
+Catalog.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -37,4 +37,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   logout,
-})(withRouter(Dashboard));
+})(withRouter(Catalog));
