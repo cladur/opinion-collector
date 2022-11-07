@@ -9,6 +9,7 @@ import Login from "./components/login/Login";
 import Catalog from "./components/catalog/Catalog";
 import Navigation from "./components/Navigation";
 import Product from "./components/product/Product";
+import Settings from "./components/settings/Settings";
 
 import axios from "axios";
 axios.defaults.baseURL = "http://127.0.0.1:8000";
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/products/:id" component={Product} />
             <Route path="/catalog" component={Catalog} />
+            <Route path="/settings" component={Settings} />
             <Route exact path="/" component={Catalog} />
             <Route path="*">
               <h1 className="text-center">

@@ -30,9 +30,9 @@ class Navigation extends Component {
     if (this.isAuthenticated()) {
       return (
         <Nav>
-          <Navbar.Text>
+          <Nav.Link href="/settings">
             User: <b>{this.getUserName()}</b>
-          </Navbar.Text>
+          </Nav.Link>
           <Nav.Link onClick={this.onLogout}>Logout</Nav.Link>
         </Nav>
       );
