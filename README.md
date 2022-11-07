@@ -28,7 +28,7 @@ To run the server. (Access at [localhost:8000](localhost:8000))
 ### Setting up the environment
 
 1. [Install Node.js](https://nodejs.org/en/)
-2. Run `npm install create-react-app reacts-scripts --force`. We use `--force`, because some versions of modules were deprecated, but there are no tutorials for newer versions of them :(
+2. Run `npm install create-react-app react-scripts --force`. We use `--force`, because some versions of modules were deprecated, but there are no tutorials for newer versions of them :(
 
 ### Working with the environment
 
