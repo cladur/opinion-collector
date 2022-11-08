@@ -1,0 +1,56 @@
+.mainDiv{
+  color: #000;
+  background-color: #FFF;
+  font-family: "Comic Sans MS";
+  margin: 0px;
+  padding: 0px;
+}
+.lrContainer{
+  width: 100%;
+  height: 80%;
+  margin: 0px;
+}
+.leftDiv{
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+.rightDiv{
+  height: 100%;
+  margin-left: 50%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+.opinionsHolder{
+  float: left;
+  width: 100%;
+}
+.opinion{
+  padding: 5px;
+  border: 1px solid black;
+}
+.buttonType1 {
+  background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  padding: 1rem 1.75rem;
+  text-decoration: none;
+  width: 200px;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.buttonType1:hover {
+  background-image: linear-gradient(-180deg, #1D95C9 0%, #17759C 100%);
+}
+@media (min-width: 768px) {
+  .buttonType1 {
+    padding: 1rem 2rem;
+  }
+}

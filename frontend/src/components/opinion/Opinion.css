@@ -1,0 +1,20 @@
+.star-rating button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.star-rating .on {
+  color: #fb0;
+}
+
+.star-rating .off {
+  color: #ccc;
+}
+
+.opinion textarea {
+	border-radius: 10%;
+	font-size: 10pt;
+	font-family: "Comic Sans MS";
+}
