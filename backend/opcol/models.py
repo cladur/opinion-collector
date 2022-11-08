@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from backend import settings
 from datetime import date
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -28,6 +28,7 @@ class CustomUser(AbstractUser):
 
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    rating = models.IntegerField(default = 0, validators=[MaxValueValidator(5),MinValueValidator(0)])
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(

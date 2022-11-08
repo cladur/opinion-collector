@@ -8,7 +8,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OpinionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'created_by', 'created_at', 'description')
+    list_display = ('id', 'rating', 'product', 'created_by', 'created_at', 'description')
 
 
 class CustomUserAdmin(admin.ModelAdmin):

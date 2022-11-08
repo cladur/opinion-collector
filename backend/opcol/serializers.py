@@ -15,7 +15,7 @@ class OpinionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinion
         read_only_fields = ('id', 'created_at', 'created_by')
-        fields = ('id', 'product', 'created_by', 'created_at', 'description')
+        fields = ('id', 'rating', 'product', 'created_by', 'created_at', 'description')
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
