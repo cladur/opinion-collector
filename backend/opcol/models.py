@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from backend import settings
 from datetime import date
 from django.core.validators import MaxValueValidator, MinValueValidator
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 
@@ -14,6 +15,7 @@ class Product(models.Model):
         max_length=255, default="description placeholder")
     ingredients = models.CharField(
         max_length=255, default="ingredients placeholder")
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.name
