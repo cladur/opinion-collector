@@ -46,6 +46,18 @@ class Opinion(models.Model):
         return self.product.name
 
 
+class Suggestion(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(
+        max_length=600, default="This suggestion is empty.")
+
+
+    def __str__(self):
+        return self.product.name
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, default="Miscellaneous")
     # TODO(Category): Add more fields - description, etc.

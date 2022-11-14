@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Opinion, Product, CustomUser, Category
+from .models import Opinion, Product, CustomUser, Category, Suggestion
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
@@ -22,7 +22,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'is_final')
 
 
+class SuggestionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'created_by', 'created_at', 'description')
+
+
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Opinion, OpinionAdmin)
+admin.site.register(Suggestion, SuggestionAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Category, CategoryAdmin)

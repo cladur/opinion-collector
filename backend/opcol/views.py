@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer
-from .models import Opinion, Product, CustomUser, Category
+from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, SuggestionSerializer
+from .models import Opinion, Product, CustomUser, Category, Suggestion
 from rest_framework import permissions
 
 
@@ -47,3 +47,9 @@ class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
     permission_classes = [IsAdminUserOrReadOnly]
+
+
+class SuggestionView(viewsets.ModelViewSet):
+    serializer_class = SuggestionSerializer
+    queryset = Suggestion.objects.all()
+    permission_classes = [IsAuthenticatedButNotAdminOrReadOnly]

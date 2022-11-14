@@ -1,6 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
-from .models import Opinion, Product, CustomUser, Category
+from .models import Opinion, Product, CustomUser, Category, Suggestion
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -28,3 +28,10 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name', 'description', 'is_final')
+
+
+class SuggestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Suggestion
+        fields = ('id', 'product', 'created_by', 'created_at', 'description')
+
