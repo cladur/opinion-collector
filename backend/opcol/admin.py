@@ -8,14 +8,15 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OpinionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'rating', 'product', 'created_by', 'created_at', 'description')
+    list_display = ('id', 'rating', 'product', 'created_by',
+                    'created_at', 'description')
 
 
 class CustomUserAdmin(admin.ModelAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['id', 'email', 'username', 'date_joined', 'is_staff']
+    list_display = ['id', 'username', 'date_joined', 'is_staff']
 
 
 class CategoryAdmin(admin.ModelAdmin):

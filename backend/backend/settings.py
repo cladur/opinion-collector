@@ -151,4 +151,7 @@ AUTH_USER_MODEL = 'opcol.CustomUser'
 # configure Djoser
 DJOSER = {
     "USER_ID_FIELD": "username",
+    'SERIALIZERS': {
+        'current_user': 'opcol.serializers.CustomUserSerializer',
+    }
 }

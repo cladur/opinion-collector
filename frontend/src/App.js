@@ -4,8 +4,6 @@ import { ToastContainer } from "react-toastify";
 
 import Root from "./Root";
 
-import requireAuth from "./utils/RequireAuth";
-
 import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Catalog from "./components/catalog/Catalog";
@@ -32,7 +30,7 @@ class App extends Component {
             <Route path="/catalog" component={Catalog} />
             <Route path="/settings" component={Settings} />
             <Route exact path="/" component={Catalog} />
-            <Route path="/product-list" component={requireAuth(Search)} />
+            <Route path="/product-list" component={Search} />
             <Route path="*">
               <h1 className="text-center">
                 The URL you specified is incorrect, it doesn't match with any

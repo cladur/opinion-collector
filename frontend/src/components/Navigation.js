@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { isAuthenticated } from "../utils/Utils";
 
 import { withRouter } from "react-router-dom"; // new import
 import { connect } from "react-redux"; // new import
@@ -9,10 +10,6 @@ import { connect } from "react-redux"; // new import
 import { logout } from "./login/LoginActions";
 
 class Navigation extends Component {
-  isAuthenticated() {
-    return localStorage.getItem("token") !== null;
-  }
-
   getUserName() {
     var userData = localStorage.getItem("user");
     var json = JSON.parse(userData);
@@ -27,7 +24,7 @@ class Navigation extends Component {
   };
 
   userContent() {
-    if (this.isAuthenticated()) {
+    if (isAuthenticated()) {
       return (
         <Nav>
           <Nav.Link href="/settings">

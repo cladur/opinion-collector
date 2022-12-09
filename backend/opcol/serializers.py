@@ -15,13 +15,14 @@ class OpinionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinion
         read_only_fields = ('id', 'created_at', 'created_by')
-        fields = ('id', 'rating', 'product', 'created_by', 'created_at', 'description')
+        fields = ('id', 'rating', 'product', 'created_by',
+                  'created_at', 'description')
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'is_staff', 'email', 'username', 'date_joined')
+        fields = ('id', 'is_staff', 'username', 'date_joined')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -34,4 +35,3 @@ class SuggestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Suggestion
         fields = ('id', 'product', 'created_by', 'created_at', 'description')
-

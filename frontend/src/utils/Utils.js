@@ -11,6 +11,18 @@ export const setAxiosAuthToken = (token) => {
   }
 };
 
+export const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null;
+};
+
+export const isStaff = () => {
+  if (localStorage.getItem("user") !== null) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return user.is_staff;
+  }
+  return false;
+};
+
 export const toastOnError = (error) => {
   if (error.response) {
     // known error

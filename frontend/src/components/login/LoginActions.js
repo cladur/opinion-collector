@@ -1,6 +1,5 @@
 import axios from "axios";
 import { push } from "connected-react-router";
-import { toast } from "react-toastify";
 import {
   SET_TOKEN,
   SET_CURRENT_USER,
@@ -33,7 +32,7 @@ export const getCurrentUser = (redirectTo) => (dispatch) => {
     .then((response) => {
       const user = {
         username: response.data.username,
-        email: response.data.email,
+        is_staff: response.data.is_staff,
       };
       dispatch(setCurrentUser(user, redirectTo));
     })

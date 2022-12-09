@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Button, Card, Container, Form, InputGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { isStaff } from "../../utils/Utils";
 import defaultImage from "../../assets/img/default.svg";
 import { getProducts, addProduct } from "../product_api/ProductsActions";
 import Modal from "react-bootstrap/Modal";
@@ -15,6 +16,20 @@ class Search extends Component {
       name: "",
       description: "",
     };
+  }
+
+  addProduct() {
+    if (isStaff()) {
+      return (
+        <Button
+          variant="outline-secondary"
+          id="button-addon2"
+          onClick={this.showModal}
+        >
+          Add Product
+        </Button>
+      );
+    }
   }
 
   componentDidMount() {
@@ -56,13 +71,7 @@ class Search extends Component {
           <Button variant="outline-secondary" id="button-addon2">
             Search
           </Button>
-          <Button
-            variant="outline-secondary"
-            id="button-addon2"
-            onClick={this.showModal}
-          >
-            Add Product
-          </Button>
+          {this.addProduct()}
         </InputGroup>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {products.map((product) => (

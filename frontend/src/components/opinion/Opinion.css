@@ -12,9 +12,3 @@
 .star-rating .off {
   color: #ccc;
 }
-
-.opinion textarea {
-	border-radius: 10%;
-	font-size: 10pt;
-	font-family: "Comic Sans MS";
-}
