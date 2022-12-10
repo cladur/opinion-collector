@@ -19,7 +19,7 @@ class Product extends Component {
 
   addSuggestionButton() {
     if (!isStaff() && isAuthenticated()) {
-      return <Button variant="primary">Add Suggestion</Button>;
+      return <Button variant="primary">Suggest change</Button>;
     }
   }
 
@@ -38,33 +38,41 @@ class Product extends Component {
 
     const product = products[0];
     return (
-      <Container fluid="sm">
-        <h1>{product.name}</h1>
+      <Container>
         <Row>
-          <Col>
-            <Image src={testImage} fluid="true" />
-          </Col>
-          <Col>
-            <h2>Description</h2>
-            <p>{product.description}</p>
-            <h2>Ingrediens</h2>
-            <p>{product.ingredients}</p>
-            {this.addSuggestionButton()}
+          <Col md="8" className="mx-auto">
+            <h1 style={{ display: "flex", justifyContent: "center" }}>
+              {product.name}
+            </h1>
+            <Row>
+              <Col>
+                <h2>Description</h2>
+                <p>{product.description}</p>
+                <Row className="mt-5"></Row>
+                <h2>Ingredients</h2>
+                <p>{product.ingredients}</p>
+                {this.addSuggestionButton()}
+              </Col>
+              <Col>
+                <Image src={product.image} fluid="true" />
+              </Col>
+            </Row>
+            <Row className="mt-5"></Row>
+            <h2>Opinions {this.addOpinionButton()}</h2>
+            <p>TestUserName</p>
+            <p>Test opinion on this product</p>
+            <p>Plusy</p>
+            <ul>
+              <li>smaczne</li>
+              <li>biale</li>
+            </ul>
+            <p>Minusy</p>
+            <ul>
+              <li>wypala oczy</li>
+              <li>smierdzi jak skarpetki sprintera</li>
+            </ul>
           </Col>
         </Row>
-        <h2>Opinions {this.addOpinionButton()}</h2>
-        <p>TestUserName</p>
-        <p>Test opinion on this product</p>
-        <p>Plusy</p>
-        <ul>
-          <li>smaczne</li>
-          <li>biale</li>
-        </ul>
-        <p>Minusy</p>
-        <ul>
-          <li>wypala oczy</li>
-          <li>smierdzi jak skarpetki sprintera</li>
-        </ul>
       </Container>
     );
   }

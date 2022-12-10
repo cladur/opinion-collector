@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'ingredients')
+    list_display = ('id', 'name', 'description', 'ingredients', 'image')
 
 
 class OpinionAdmin(admin.ModelAdmin):

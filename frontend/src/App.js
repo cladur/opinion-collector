@@ -10,9 +10,9 @@ import Catalog from "./components/catalog/Catalog";
 import Navigation from "./components/Navigation";
 import Product from "./components/product/Product";
 import Settings from "./components/settings/Settings";
+import AdminDashboard from "./components/admin_dashboard/AdminDashboard";
 
 import axios from "axios";
-import Search from "./components/search/Search";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
@@ -27,10 +27,10 @@ class App extends Component {
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/products/:id" component={Product} />
-            <Route path="/catalog" component={Catalog} />
-            <Route path="/settings" component={Settings} />
             <Route exact path="/" component={Catalog} />
-            <Route path="/product-list" component={Search} />
+            <Route path="/catalog" component={Catalog} />
+            <Route path="/admin-dashboard" component={AdminDashboard} />
+            <Route path="/settings" component={Settings} />
             <Route path="*">
               <h1 className="text-center">
                 The URL you specified is incorrect, it doesn't match with any

@@ -8,7 +8,7 @@ import { logout } from "../login/LoginActions";
 
 import Search from "../search/Search";
 
-class Catalog extends Component {
+class AdminDashboard extends Component {
   onLogout = () => {
     this.props.logout();
   };
@@ -17,14 +17,14 @@ class Catalog extends Component {
     return (
       <div>
         <Container>
-          <Search />
+          <h1>DASHBOARD WIP</h1>
         </Container>
       </div>
     );
   }
 }
 
-Catalog.propTypes = {
+AdminDashboard.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   logout,
-})(withRouter(Catalog));
+})(withRouter(AdminDashboard));

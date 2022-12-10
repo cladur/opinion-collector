@@ -30,7 +30,7 @@ class AddOpinionModal extends Component {
     return (
       <>
         <Button variant="primary" onClick={this.showModal}>
-          Add Opinion
+          Add
         </Button>
 
         <Modal

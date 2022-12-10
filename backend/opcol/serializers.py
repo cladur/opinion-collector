@@ -6,9 +6,7 @@ from .models import Opinion, Product, CustomUser, Category, Suggestion
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'ingredients')
-
-# TODO: Add serializers for Opinion, User, and Category.
+        fields = ('id', 'name', 'description', 'ingredients', 'image')
 
 
 class OpinionSerializer(serializers.ModelSerializer):

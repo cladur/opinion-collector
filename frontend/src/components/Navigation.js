@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { isAuthenticated } from "../utils/Utils";
+import { isAuthenticated, isStaff } from "../utils/Utils";
 
 import { withRouter } from "react-router-dom"; // new import
 import { connect } from "react-redux"; // new import
@@ -43,6 +43,16 @@ class Navigation extends Component {
     }
   }
 
+  adminContent() {
+    if (isAuthenticated() && isStaff()) {
+      return (
+        <Nav className="me-auto">
+          <Nav.Link href="/admin-dashboard">Admin Dashboard</Nav.Link>
+        </Nav>
+      );
+    }
+  }
+
   handleRefresh = () => {
     // by calling this method react re-renders the component
     this.setState({});
@@ -55,9 +65,7 @@ class Navigation extends Component {
           <Navbar.Brand href="/">Opinion Collector</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="/product-list">Catalog</Nav.Link>
-            </Nav>
+            <Nav className="me-auto">{this.adminContent()}</Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             {this.userContent()}

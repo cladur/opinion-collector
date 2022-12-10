@@ -57,9 +57,28 @@ class Search extends Component {
     this.hideModal();
   };
 
-  render() {
+  displayProducts() {
     const { products } = this.props.products;
 
+    return products.map((product) => (
+      <Card style={{ width: "18rem", margin: "1rem" }} key={product.id}>
+        <Card.Link href={"/products/" + product.id}>
+          <Card.Img
+            height={"200px"}
+            style={{ objectFit: "cover" }}
+            variant="top"
+            src={product.image}
+          />
+        </Card.Link>
+        <Card.Body>
+          <Card.Title>{product.name}</Card.Title>
+          <Card.Text>{product.description}</Card.Text>
+        </Card.Body>
+      </Card>
+    ));
+  }
+
+  render() {
     return (
       <Container>
         <InputGroup className="mb-3 mt-3">
@@ -74,18 +93,7 @@ class Search extends Component {
           {this.addProduct()}
         </InputGroup>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {products.map((product) => (
-            <Card style={{ width: "18rem", margin: "1rem" }} key={product.id}>
-              <Card.Link href={"/products/" + product.id}>
-                <Card.Img variant="top" src={defaultImage} />
-              </Card.Link>
-              <Card.Body>
-                <Card.Title>{product.name}</Card.Title>
-                <Card.Text>{product.description}</Card.Text>
-                <Card.Text>{product.ingredients}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
+          {this.displayProducts()}
         </div>
         <Modal show={this.state.show} onHide={this.hideModal}>
           <Modal.Header closeButton>
