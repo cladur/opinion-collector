@@ -1,8 +1,6 @@
 from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from backend import settings
-from datetime import date
 from django.core.validators import MaxValueValidator, MinValueValidator
 from simple_history.models import HistoricalRecords
 
@@ -16,10 +14,9 @@ class Product(models.Model):
         max_length=255, default="description placeholder")
     ingredients = models.CharField(
         max_length=255, default="ingredients placeholder")
-    image = models.FileField(upload_to='media/', null=True)
+    image = models.ImageField(upload_to='media/', null=True)
 
     history = HistoricalRecords()
-
 
     def __str__(self):
         return self.name
@@ -34,7 +31,8 @@ class CustomUser(AbstractUser):
 
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rating = models.IntegerField(default = 0, validators=[MaxValueValidator(5),MinValueValidator(0)])
+    rating = models.IntegerField(default=0, validators=[
+                                 MaxValueValidator(5), MinValueValidator(0)])
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
@@ -52,7 +50,6 @@ class Suggestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
         max_length=600, default="This suggestion is empty.")
-
 
     def __str__(self):
         return self.product.name

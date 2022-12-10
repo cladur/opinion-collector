@@ -4,41 +4,22 @@ import { Button, Card, Container, Form, InputGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { isStaff } from "../../utils/Utils";
-import defaultImage from "../../assets/img/default.svg";
-import { getProducts, addProduct } from "../product_api/ProductsActions";
+import { addProduct } from "../product_api/ProductsActions";
 import Modal from "react-bootstrap/Modal";
 
 class Search extends Component {
   constructor() {
     super();
     this.state = {
-      show: false,
       name: "",
       description: "",
+      ingredients: "",
+      image: "",
+      show: false,
     };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
   }
-
-  addProduct() {
-    if (isStaff()) {
-      return (
-        <Button
-          variant="outline-secondary"
-          id="button-addon2"
-          onClick={this.showModal}
-        >
-          Add Product
-        </Button>
-      );
-    }
-  }
-
-  componentDidMount() {
-    this.props.getProducts();
-  }
-
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
 
   showModal = () => {
     this.setState({ show: true });
@@ -48,53 +29,38 @@ class Search extends Component {
     this.setState({ show: false });
   };
 
-  onAddClick = () => {
-    const product = {
-      name: this.state.name,
-      description: this.state.description,
-    };
-    this.props.addProduct(product);
-    this.hideModal();
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
-  displayProducts() {
-    const { products } = this.props.products;
+  onImageChange = (e) => {
+    this.setState({ image: e.target.files[0] });
+  };
 
-    return products.map((product) => (
-      <Card style={{ width: "18rem", margin: "1rem" }} key={product.id}>
-        <Card.Link href={"/products/" + product.id}>
-          <Card.Img
-            height={"200px"}
-            style={{ objectFit: "cover" }}
-            variant="top"
-            src={product.image}
-          />
-        </Card.Link>
-        <Card.Body>
-          <Card.Title>{product.name}</Card.Title>
-          <Card.Text>{product.description}</Card.Text>
-        </Card.Body>
-      </Card>
-    ));
-  }
+  onAddClick = () => {
+    let product = new FormData();
+    // const product = {
+    //   name: this.state.name,
+    //   description: this.state.description,
+    //   ingredients: this.state.ingredients,
+    //   image: this.state.image,
+    // };
+    product.append("name", this.state.name);
+    product.append("description", this.state.description);
+    product.append("ingredients", this.state.ingredients);
+    if (this.state.image) {
+      product.append("image", this.state.image, this.state.image.name);
+    }
+    this.props.addProduct(product);
+  };
 
   render() {
     return (
-      <Container>
-        <InputGroup className="mb-3 mt-3">
-          <InputGroup.Text id="basic-addon1">#</InputGroup.Text>
-          <Form.Control
-            placeholder="Type here to search..."
-            aria-label="Type here to search..."
-          />
-          <Button variant="outline-secondary" id="button-addon2">
-            Search
-          </Button>
-          {this.addProduct()}
-        </InputGroup>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {this.displayProducts()}
-        </div>
+      <>
+        <Button variant="primary" onClick={this.showModal}>
+          Add Product
+        </Button>
+
         <Modal show={this.state.show} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <Modal.Title>Add product</Modal.Title>
@@ -111,6 +77,7 @@ class Search extends Component {
                   value={this.name}
                   onChange={this.onChange}
                 />
+                <br />
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                   as="textarea"
@@ -120,27 +87,45 @@ class Search extends Component {
                   value={this.description}
                   onChange={this.onChange}
                 />
+                <br />
+                <Form.Label>Ingredients</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="ingredients"
+                  placeholder="Enter ingredients"
+                  value={this.ingredients}
+                  onChange={this.onChange}
+                />
+                <br />
+                <Form.Label>Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/jpeg,image/png,image/gif"
+                  name="image"
+                  placeholder="Enter image"
+                  value={this.image}
+                  onChange={this.onImageChange}
+                />
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.hideModal}>
-              Close
+              Cancel
             </Button>
             <Button variant="primary" onClick={this.onAddClick}>
-              Save Changes
+              Add Product
             </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
+      </>
     );
   }
 }
 
 Search.propTypes = {
-  getProducts: PropTypes.func.isRequired,
   addProduct: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -148,6 +133,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  getProducts,
   addProduct,
 })(withRouter(Search));

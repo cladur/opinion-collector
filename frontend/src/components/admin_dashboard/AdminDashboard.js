@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { logout } from "../login/LoginActions";
 
-import Search from "../search/Search";
+import Search from "../catalog/Search";
 
 class AdminDashboard extends Component {
   onLogout = () => {

@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, SuggestionSerializer
 from .models import Opinion, Product, CustomUser, Category, Suggestion
 from rest_framework import permissions
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class IsAdminUserOrReadOnly(permissions.IsAdminUser):
@@ -23,6 +24,7 @@ class IsAuthenticatedButNotAdminOrReadOnly(permissions.IsAuthenticatedOrReadOnly
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAdminUserOrReadOnly]
 
 
@@ -34,7 +36,7 @@ class OpinionView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
-    def get_opinions_of_product(self,product):
+    def get_opinions_of_product(self, product):
         return Opinion.objects.filter(product__id=product)
 
 

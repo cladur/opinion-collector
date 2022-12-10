@@ -4,6 +4,8 @@ from .models import Opinion, Product, CustomUser, Category, Suggestion
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
+
     class Meta:
         model = Product
         fields = ('id', 'name', 'description', 'ingredients', 'image')

@@ -31,8 +31,13 @@ export const getProducts = () => (dispatch) => {
 };
 
 export const addProduct = (note) => (dispatch) => {
+  console.log(note);
   axios
-    .post("/api/products/", note)
+    .post("/api/products/", note, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
     .then((response) => {
       dispatch({
         type: ADD_PRODUCT,

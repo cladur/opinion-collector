@@ -5,10 +5,9 @@ import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getProduct } from "../product_api/ProductsActions";
-import AddOpinionModal from "../opinion/AddOpinion";
+import AddOpinionModal from "./AddOpinionModal";
 import Button from "react-bootstrap/Button";
 import { isStaff, isAuthenticated } from "../../utils/Utils";
-import testImage from "./testProductImage.jpeg";
 import { Container } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 

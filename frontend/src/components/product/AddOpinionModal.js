@@ -26,6 +26,7 @@ class AddOpinionModal extends Component {
   hideModal = () => {
     this.setState({ show: false });
   };
+
   render() {
     return (
       <>
