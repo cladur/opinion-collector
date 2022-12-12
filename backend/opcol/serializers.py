@@ -28,7 +28,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'name', 'description', 'is_final')
+        fields = ('id', 'name', 'description', 'is_final', 'parent')
 
 
 class SuggestionSerializer(serializers.ModelSerializer):
