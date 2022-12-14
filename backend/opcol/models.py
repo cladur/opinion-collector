@@ -7,8 +7,21 @@ from simple_history.models import HistoricalRecords
 
 # Create your models here.
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, default="Miscellaneous")
+    # TODO(Category): Add more fields - description, etc.
+    description = models.CharField(
+        max_length=200, default="---")
+    is_final = models.BooleanField(
+        default=False)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None, blank=True, null=True)
     name = models.CharField(max_length=100)
     description = models.CharField(
         max_length=255, default="description placeholder")
@@ -55,14 +68,4 @@ class Suggestion(models.Model):
         return self.product.name
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, default="Miscellaneous")
-    # TODO(Category): Add more fields - description, etc.
-    description = models.CharField(
-        max_length=200, default="---")
-    is_final = models.BooleanField(
-        default=False)
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self):
-        return self.name

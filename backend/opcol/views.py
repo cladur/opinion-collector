@@ -27,6 +27,12 @@ class ProductView(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAdminUserOrReadOnly]
 
+    def get_searched_products_by_name(self, name):
+        return Product.objects.filter(product__name=name)
+
+    def get_searched_products_by_category(self, category):
+        return Product.objects.filter(category__id=category)
+
 
 class OpinionView(viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
