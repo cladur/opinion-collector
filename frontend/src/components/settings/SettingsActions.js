@@ -1,19 +1,34 @@
 import axios from "axios";
-import { SET_PASSWORD, SET_PASSWORD_ERROR } from "./SettingsTypes";
-import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
+import { toast } from "react-toastify";
 
-export const setPassword = (userData, redirectTo) => (dispatch) => {
+import { SET_PASSWORD, SET_PASSWORD_ERROR } from "./SettingsTypes";
+
+export const setPassword = (userData) => (dispatch) => {
   axios
-    .post("/api/users/set_password", userData)
+    .post("/api/users/set_password/", userData)
     .then((response) => {
-      const { error } = response.data;
-      toastOnError(error);
+      toast.success("Password changed succesfully.");
+      dispatch({
+        type: SET_PASSWORD,
+        payload: response.data,
+      });
     })
     .catch((error) => {
-      dispatch({
-        type: SET_PASSWORD_ERROR,
-        errorData: error.response.data,
-      });
-      toastOnError(error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        // toast.error(JSON.stringify(error.response.data));
+        dispatch({
+          type: SET_PASSWORD_ERROR,
+          errorData: error.response.data,
+        });
+      } else if (error.message) {
+        // the error message is available,
+        // let's display it on error toast
+        toast.error(JSON.stringify(error.message));
+      } else {
+        // strange error, just show it
+        toast.error(JSON.stringify(error));
+      }
     });
 };

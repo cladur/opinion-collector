@@ -48,12 +48,12 @@ class Search extends Component {
     }
     this.props.addProduct(product);
 
-    this.setState({ ["name"]: "" });
-    this.setState({ ["description"]: "" });
-    this.setState({ ["ingredients"]: "" });
-    this.setState({ ["category"]: "" });
-    this.setState({ ["image"]: "" });
-    this.setState({ ["show"]: false });
+    this.setState({ name: "" });
+    this.setState({ description: "" });
+    this.setState({ ingredients: "" });
+    this.setState({ category: "" });
+    this.setState({ image: "" });
+    this.setState({ show: false });
   };
 
   categoryOption(category) {

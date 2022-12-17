@@ -121,7 +121,7 @@ class Search extends Component {
     if (this.state.search_category === category) {
       category = null;
     }
-    this.setState({ ["search_category"]: category }, () => {
+    this.setState({ search_category: category }, () => {
       this.filterProducts();
     });
   };

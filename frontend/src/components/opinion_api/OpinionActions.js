@@ -31,7 +31,6 @@ export const getOpinions = (product_id) => (dispatch) => {
 };
 
 export const addOpinion = (note) => (dispatch) => {
-  console.log(note);
   axios
     .post("/api/opinions/", note, {
       headers: {
