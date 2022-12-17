@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Button, Card, Container, Form, InputGroup } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { isStaff } from "../../utils/Utils";
 import { addProduct } from "../product_api/ProductsActions";
 import Modal from "react-bootstrap/Modal";
 
@@ -14,6 +13,7 @@ class Search extends Component {
       name: "",
       description: "",
       ingredients: "",
+      category: "",
       image: "",
       show: false,
     };
@@ -39,22 +39,48 @@ class Search extends Component {
 
   onAddClick = () => {
     let product = new FormData();
-    // const product = {
-    //   name: this.state.name,
-    //   description: this.state.description,
-    //   ingredients: this.state.ingredients,
-    //   image: this.state.image,
-    // };
     product.append("name", this.state.name);
     product.append("description", this.state.description);
     product.append("ingredients", this.state.ingredients);
+    product.append("category", this.state.category);
     if (this.state.image) {
       product.append("image", this.state.image, this.state.image.name);
     }
     this.props.addProduct(product);
+
+    this.setState({ ["name"]: "" });
+    this.setState({ ["description"]: "" });
+    this.setState({ ["ingredients"]: "" });
+    this.setState({ ["category"]: "" });
+    this.setState({ ["image"]: "" });
+    this.setState({ ["show"]: false });
   };
 
+  categoryOption(category) {
+    return (
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>
+    );
+  }
+
+  listCategoryOptions(categories) {
+    var result = [];
+
+    for (var category of categories) {
+      result.push(this.categoryOption(category));
+      var children = this.listCategoryOptions(category.children);
+      for (var child of children) {
+        result.push(child);
+      }
+    }
+
+    return result;
+  }
+
   render() {
+    const { categories } = this.props.categories;
+
     return (
       <>
         <Button variant="primary" onClick={this.showModal}>
@@ -98,6 +124,17 @@ class Search extends Component {
                   onChange={this.onChange}
                 />
                 <br />
+                <Form.Label>Category</Form.Label>
+                <Form.Select
+                  name="category"
+                  placeholder="Enter ingredients"
+                  aria-label="Select category"
+                  value={this.categories}
+                  onChange={this.onChange}
+                >
+                  {this.listCategoryOptions(categories)}
+                </Form.Select>
+                <br />
                 <Form.Label>Image</Form.Label>
                 <Form.Control
                   type="file"
@@ -130,6 +167,7 @@ Search.propTypes = {
 
 const mapStateToProps = (state) => ({
   products: state.products,
+  categories: state.categories,
 });
 
 export default connect(mapStateToProps, {

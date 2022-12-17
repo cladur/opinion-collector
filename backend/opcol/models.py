@@ -12,7 +12,7 @@ class Category(models.Model):
     description = models.CharField(max_length=200, default="---")
     is_final = models.BooleanField(default=False)
     parent = models.ForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True)
+        "self", related_name="children", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name

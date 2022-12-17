@@ -4,6 +4,8 @@ from .serializers import OpinionSerializer, ProductSerializer, CustomUserSeriali
 from .models import Opinion, Product, CustomUser, Category, Suggestion
 from rest_framework import permissions
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.db.models.query import EmptyQuerySet
+from django.db.models.query import Q
 
 
 class IsAdminUserOrReadOnly(permissions.IsAdminUser):
@@ -23,15 +25,21 @@ class IsAuthenticatedButNotAdminOrReadOnly(permissions.IsAuthenticatedOrReadOnly
 
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAdminUserOrReadOnly]
 
-    def get_searched_products_by_name(self, name):
-        return Product.objects.filter(product__name=name)
-
-    def get_searched_products_by_category(self, category):
-        return Product.objects.filter(category__id=category)
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        category = self.request.query_params.get('category')
+        if category is not None:
+            queryset = queryset.filter(
+                Q(category__id=category) | Q(category__parent__id=category) | Q(category__parent__parent__id=category) | Q(category__parent__parent__parent__id=category) | Q(category__parent__parent__parent__parent__id=category))
+        name = self.request.query_params.get('name')
+        if name is not None:
+            queryset = queryset.filter(
+                Q(name__contains=name) | Q(description__contains=name))
+        return queryset
 
 
 class OpinionView(viewsets.ModelViewSet):
@@ -63,7 +71,7 @@ class CustomUserView(viewsets.ModelViewSet):
 
 class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+    queryset = Category.objects.filter(parent__isnull=True)
     permission_classes = [IsAdminUserOrReadOnly]
 
 

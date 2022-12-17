@@ -16,9 +16,17 @@ export const getProduct = (id) => (dispatch) => {
     });
 };
 
-export const getProducts = () => (dispatch) => {
+export const getProducts = (name, category) => (dispatch) => {
+  var name_query = "";
+  if (name) {
+    name_query = "name=" + name;
+  }
+  var category_query = "";
+  if (category) {
+    category_query = "category=" + category;
+  }
   axios
-    .get("/api/products/")
+    .get("/api/products/?" + name_query + "&" + category_query)
     .then((response) => {
       dispatch({
         type: GET_PRODUCTS,

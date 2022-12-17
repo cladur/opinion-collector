@@ -1,5 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
+from rest_framework_recursive.fields import RecursiveField
 from .models import Opinion, Product, CustomUser, Category, Suggestion
 
 
@@ -8,7 +9,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'ingredients', 'image')
+        fields = ('id', 'name', 'description',
+                  'category', 'ingredients', 'image')
 
 
 class CustomUserForOpinionSerializer(serializers.ModelSerializer):
@@ -33,10 +35,19 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'is_staff', 'username', 'date_joined')
 
 
+class RecursiveSerializer(serializers.Serializer):
+    def to_representation(self, value):
+        serializer = self.parent.parent.__class__(value, context=self.context)
+        return serializer.data
+
+
 class CategorySerializer(serializers.ModelSerializer):
+    children = RecursiveField(many=True)
+
     class Meta:
         model = Category
-        fields = ('id', 'name', 'description', 'is_final', 'parent')
+        fields = ('id', 'name', 'description',
+                  'is_final', 'parent', 'children')
 
 
 class SuggestionSerializer(serializers.ModelSerializer):
