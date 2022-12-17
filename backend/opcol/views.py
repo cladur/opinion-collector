@@ -36,7 +36,6 @@ class ProductView(viewsets.ModelViewSet):
 
 class OpinionView(viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
-    queryset = Opinion.objects.all()
     permission_classes = [IsAuthenticatedButNotAdminOrReadOnly]
 
     def perform_create(self, serializer):
@@ -44,6 +43,17 @@ class OpinionView(viewsets.ModelViewSet):
 
     def get_opinions_of_product(self, product):
         return Opinion.objects.filter(product__id=product)
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Opinion.objects.all()
+        product = self.request.query_params.get('product')
+        if product is not None:
+            queryset = queryset.filter(product__id=product)
+        return queryset
 
 
 class CustomUserView(viewsets.ModelViewSet):

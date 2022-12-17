@@ -11,7 +11,15 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'description', 'ingredients', 'image')
 
 
+class CustomUserForOpinionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username')
+
+
 class OpinionSerializer(serializers.ModelSerializer):
+    created_by = CustomUserForOpinionSerializer()
+
     class Meta:
         model = Opinion
         read_only_fields = ('id', 'created_at', 'created_by')
