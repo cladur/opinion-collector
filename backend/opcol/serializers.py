@@ -1,7 +1,7 @@
 from dataclasses import field
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
-from .models import Opinion, Product, CustomUser, Category, Suggestion
+from .models import Opinion, Product, CustomUser, Category, Feature, Suggestion
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -13,6 +13,12 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category', 'ingredients', 'image')
 
 
+class FeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feature
+        fields = ('id', 'category', 'name', 'is_positive')
+
+
 class OpinionSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
         source='created_by.username', read_only=True)
@@ -22,7 +28,7 @@ class OpinionSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'created_at',
                             'created_by', 'username')
         fields = ('id', 'rating', 'product', 'created_by', 'username',
-                  'created_at', 'description')
+                  'created_at', 'description', 'positive_features', 'negative_features')
 
 
 class CustomUserSerializer(serializers.ModelSerializer):

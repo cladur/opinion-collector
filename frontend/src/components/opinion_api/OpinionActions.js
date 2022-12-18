@@ -31,6 +31,7 @@ export const getOpinions = (product_id) => (dispatch) => {
 };
 
 export const addOpinion = (note) => (dispatch) => {
+  console.log(note);
   axios
     .post("/api/opinions/", note)
     .then((response) => {
@@ -40,6 +41,7 @@ export const addOpinion = (note) => (dispatch) => {
       });
     })
     .catch((error) => {
-      toastOnError("Unable to add opinion!");
+      toastOnError(error);
+      // toastOnError("Unable to add opinion!");
     });
 };

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, SuggestionSerializer
-from .models import Opinion, Product, CustomUser, Category, Suggestion
+from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, SuggestionSerializer, FeatureSerializer
+from .models import Opinion, Product, CustomUser, Category, Suggestion, Feature
 from rest_framework import permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.db.models.query import EmptyQuerySet
@@ -26,7 +26,6 @@ class IsAuthenticatedButNotAdminOrReadOnly(permissions.IsAuthenticatedOrReadOnly
 
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    # queryset = Product.objects.all()
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = [IsAdminUserOrReadOnly]
 
@@ -43,6 +42,22 @@ class ProductView(viewsets.ModelViewSet):
         return queryset
 
 
+class FeatureView(viewsets.ModelViewSet):
+    serializer_class = FeatureSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Feature.objects.all()
+        category = self.request.query_params.get('category')
+        if category is not None:
+            queryset = queryset.filter(
+                Q(category__id=category) | Q(category__children__id=category) | Q(category__children__children__id=category) | Q(category__children__children__children__id=category) | Q(category__children__children__children__children__id=category))
+        is_positive = self.request.query_params.get('is_positive')
+        if is_positive is not None:
+            queryset = queryset.filter(is_positive=is_positive)
+        return queryset
+
+
 class OpinionView(viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
     permission_classes = [IsAuthenticatedButNotAdminOrReadOnly]
@@ -51,10 +66,6 @@ class OpinionView(viewsets.ModelViewSet):
         serializer.save(created_by=self.request.user)
 
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
         queryset = Opinion.objects.all()
         product = self.request.query_params.get('product')
         if product is not None:

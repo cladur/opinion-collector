@@ -8,15 +8,14 @@ import Modal from "react-bootstrap/Modal";
 
 import Select from "react-dropdown-select";
 
-import { positives, negatives } from "./tags";
-
 class AddOpinionModal extends Component {
   constructor() {
     super();
     this.state = {
+      score: 1,
       description: "",
-      positives: [],
-      negatives: [],
+      positive_features: [],
+      negative_features: [],
       show: false,
     };
     this.showModal = this.showModal.bind(this);
@@ -36,16 +35,25 @@ class AddOpinionModal extends Component {
   };
 
   onAddClick = () => {
-    let opinion = new FormData();
-    opinion.append("score", this.state.score);
-    opinion.append("description", this.state.description);
-    opinion.append("product", this.props.match.params.id);
+    var pos_feat = this.state.positive_features.map((x) => x.id);
+    var neg_feat = this.state.negative_features.map((x) => x.id);
+
+    const opinion = {
+      rating: this.state.score,
+      description: this.state.description,
+      product: this.props.match.params.id,
+      positive_features: pos_feat,
+      negative_features: neg_feat,
+    };
+
+    console.log(opinion);
+
     this.props.addOpinion(opinion);
 
-    this.setState({ score: "" });
+    this.setState({ score: 1 });
     this.setState({ description: "" });
-    this.setState({ positives: [] });
-    this.setState({ negatives: [] });
+    this.setState({ positive_features: [] });
+    this.setState({ negative_features: [] });
     this.setState({ show: false });
   };
 
@@ -72,6 +80,10 @@ class AddOpinionModal extends Component {
   }
 
   render() {
+    var { features } = this.props.features;
+    var positive_features = features.filter((x) => x.is_positive);
+    var negative_features = features.filter((x) => !x.is_positive);
+
     return (
       <>
         <Button variant="primary" onClick={this.showModal}>
@@ -90,7 +102,7 @@ class AddOpinionModal extends Component {
                   aria-label="Score"
                   name="score"
                   placeholder="Enter score"
-                  value={this.categories}
+                  value={this.score}
                   onChange={this.onChange}
                 >
                   <option value="1">1</option>
@@ -113,25 +125,28 @@ class AddOpinionModal extends Component {
                 <Form.Label>Positives</Form.Label>
                 <Select
                   multi
-                  options={positives}
-                  values={this.positives}
+                  options={positive_features}
+                  values={this.positive_features}
                   labelField="name"
                   valueField="id"
                   searchBy="name"
-                  name="positives"
-                  // value={this.positives}
-                  onChange={(value) => this.setState({ positives: value })}
+                  name="positive_features"
+                  onChange={(value) =>
+                    this.setState({ positive_features: value })
+                  }
                 />
                 <br />
                 <Form.Label>Negatives</Form.Label>
                 <Select
                   multi
-                  options={negatives}
-                  values={this.state.negatives}
+                  options={negative_features}
+                  values={this.negative_features}
                   labelField="name"
                   valueField="id"
                   searchBy="name"
-                  onChange={(value) => this.setState({ negatives: value })}
+                  onChange={(value) =>
+                    this.setState({ negative_features: value })
+                  }
                 />
               </Form.Group>
             </Form>
@@ -156,6 +171,7 @@ AddOpinionModal.propTypes = {
 
 const mapStateToProps = (state) => ({
   products: state.products,
+  features: state.features,
 });
 
 export default connect(mapStateToProps, {

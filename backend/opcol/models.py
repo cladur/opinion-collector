@@ -39,6 +39,15 @@ class CustomUser(AbstractUser):
         return self.username
 
 
+class Feature(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    is_positive = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Opinion(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0, validators=[
@@ -46,7 +55,11 @@ class Opinion(models.Model):
     created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
-        max_length=255, default="description placeholder")
+        max_length=255, default="This description is empty.", blank=True)
+    positive_features = models.ManyToManyField(
+        Feature, related_name="positive_features", blank=True)
+    negative_features = models.ManyToManyField(
+        Feature, related_name="negative_features", blank=True)
 
     def __str__(self):
         return self.product.name
@@ -61,6 +74,7 @@ class Suggestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
         max_length=600, default="This suggestion is empty.")
+    is_considered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.product.name
