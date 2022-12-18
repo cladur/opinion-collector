@@ -31,8 +31,6 @@ class Product extends Component {
   }
 
   displayOpinions(opinions) {
-    console.log(opinions);
-
     if (opinions.length === 0) {
       return <p>No opinions have been added to this product yet!</p>;
     }
@@ -40,9 +38,7 @@ class Product extends Component {
     return opinions.map((opinion) => (
       <div key={opinion.id}>
         <div>
-          <h5 style={{ display: "inline-block" }}>
-            {opinion.created_by.username}
-          </h5>
+          <h5 style={{ display: "inline-block" }}>{opinion.username}</h5>
           <span style={{ "margin-left": "10px" }}>
             {new Date(opinion.created_at).toLocaleDateString()}
           </span>

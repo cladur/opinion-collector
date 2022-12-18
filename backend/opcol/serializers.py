@@ -13,19 +13,15 @@ class ProductSerializer(serializers.ModelSerializer):
                   'category', 'ingredients', 'image')
 
 
-class CustomUserForOpinionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'username')
-
-
 class OpinionSerializer(serializers.ModelSerializer):
-    created_by = CustomUserForOpinionSerializer()
+    username = serializers.CharField(
+        source='created_by.username', read_only=True)
 
     class Meta:
         model = Opinion
-        read_only_fields = ('id', 'created_at', 'created_by')
-        fields = ('id', 'rating', 'product', 'created_by',
+        read_only_fields = ('id', 'created_at',
+                            'created_by', 'username')
+        fields = ('id', 'rating', 'product', 'created_by', 'username',
                   'created_at', 'description')
 
 

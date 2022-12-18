@@ -48,10 +48,11 @@ class Opinion(models.Model):
     description = models.CharField(
         max_length=255, default="description placeholder")
 
-    # TODO(Opinion): Add more fields - score, description, etc.
-
     def __str__(self):
         return self.product.name
+
+    class Meta:
+        unique_together = ('product', 'created_by')
 
 
 class Suggestion(models.Model):

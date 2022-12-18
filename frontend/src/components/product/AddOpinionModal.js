@@ -1,18 +1,22 @@
-import React, { Component, useState } from "react";
-import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Button, Form } from "react-bootstrap";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { addOpinion } from "../opinion_api/OpinionActions";
 import Modal from "react-bootstrap/Modal";
-import styled from "@emotion/styled";
 
 import Select from "react-dropdown-select";
 
-// Should be changed to database data!
 import { positives, negatives } from "./tags";
-import "./Opinion.css";
 
 class AddOpinionModal extends Component {
   constructor() {
     super();
     this.state = {
+      description: "",
+      positives: [],
+      negatives: [],
       show: false,
     };
     this.showModal = this.showModal.bind(this);
@@ -27,171 +31,133 @@ class AddOpinionModal extends Component {
     this.setState({ show: false });
   };
 
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onAddClick = () => {
+    let opinion = new FormData();
+    opinion.append("score", this.state.score);
+    opinion.append("description", this.state.description);
+    opinion.append("product", this.props.match.params.id);
+    this.props.addOpinion(opinion);
+
+    this.setState({ score: "" });
+    this.setState({ description: "" });
+    this.setState({ positives: [] });
+    this.setState({ negatives: [] });
+    this.setState({ show: false });
+  };
+
+  categoryOption(category) {
+    return (
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>
+    );
+  }
+
+  listCategoryOptions(categories) {
+    var result = [];
+
+    for (var category of categories) {
+      result.push(this.categoryOption(category));
+      var children = this.listCategoryOptions(category.children);
+      for (var child of children) {
+        result.push(child);
+      }
+    }
+
+    return result;
+  }
+
   render() {
     return (
       <>
         <Button variant="primary" onClick={this.showModal}>
-          Add
+          Add Opinion
         </Button>
 
-        <Modal
-          className="opinion"
-          show={this.state.show}
-          onHide={this.hideModal}
-        >
-          <form>
-            <Modal.Header closeButton>
-              <Modal.Title>Add Opinion</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-              Score
-              <br />
-              <StarRating />
-              <br />
-              Description
-              <br />
-              <textarea maxlength="250" />
-              <br />
-              Positive features
-              <br />
-              <TagList type={positives} color={"#0F0"} />
-              <br />
-              Negative features
-              <br />
-              <TagList type={negatives} color={"#F00"} />
-            </Modal.Body>
-
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.hideModal}>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={this.hideModal}>
-                Add
-              </Button>
-            </Modal.Footer>
-          </form>
+        <Modal show={this.state.show} onHide={this.hideModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Opinion</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="contentId">
+                <Form.Label>Score</Form.Label>
+                <Form.Select
+                  aria-label="Score"
+                  name="score"
+                  placeholder="Enter score"
+                  value={this.categories}
+                  onChange={this.onChange}
+                >
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </Form.Select>
+                <br />
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="description"
+                  placeholder="Enter description"
+                  value={this.description}
+                  onChange={this.onChange}
+                />
+                <br />
+                <Form.Label>Positives</Form.Label>
+                <Select
+                  multi
+                  options={positives}
+                  values={this.positives}
+                  labelField="name"
+                  valueField="id"
+                  searchBy="name"
+                  name="positives"
+                  // value={this.positives}
+                  onChange={(value) => this.setState({ positives: value })}
+                />
+                <br />
+                <Form.Label>Negatives</Form.Label>
+                <Select
+                  multi
+                  options={negatives}
+                  values={this.state.negatives}
+                  labelField="name"
+                  valueField="id"
+                  searchBy="name"
+                  onChange={(value) => this.setState({ negatives: value })}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.hideModal}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={this.onAddClick}>
+              Add Opinion
+            </Button>
+          </Modal.Footer>
         </Modal>
       </>
     );
   }
 }
 
-function StarRating() {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
-  return (
-    <div className="star-rating">
-      {[...Array(5)].map((star, index) => {
-        index += 1;
-        return (
-          <button
-            type="button"
-            key={index}
-            className={index <= (hover || rating) ? "on" : "off"}
-            onClick={() => setRating(index)}
-            onMouseEnter={() => setHover(index)}
-            onMouseLeave={() => setHover(rating)}
-          >
-            <span className="star">&#9733;</span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-const state = {
-  multi: true,
-  disabled: false,
-  loading: false,
-  contentRenderer: false,
-  dropdownRenderer: false,
-  inputRenderer: false,
-  itemRenderer: false,
-  optionRenderer: false,
-  noDataRenderer: false,
-  selectValues: [],
-  searchBy: "name",
-  clearable: false,
-  searchable: true,
-  create: false,
-  separator: false,
-  forceOpen: false,
-  handle: true,
-  addPlaceholder: " click to add",
-  labelField: "name",
-  valueField: "id",
-  keepSelectedInList: true,
-  closeOnSelect: false,
-  dropdownPosition: "bottom",
-  direction: "ltr",
-  dropdownHeight: "300px",
+AddOpinionModal.propTypes = {
+  addOpinion: PropTypes.func.isRequired,
 };
 
-const setValues = (selectValues) => state.selectValues;
+const mapStateToProps = (state) => ({
+  products: state.products,
+});
 
-const noDataRenderer = () => {
-  return (
-    <p style={{ textAlign: "center" }}>
-      <strong>Ooops!</strong> No data found
-    </p>
-  );
-};
-
-function TagList(props) {
-  return (
-    <div className="tagList">
-      <div>
-        <p></p>
-        <div style={{ maxWidth: "250px" }}>
-          <StyledSelect
-            placeholder="Select Tags"
-            addPlaceholder={state.addPlaceholder}
-            color={props.color}
-            disabled={state.disabled}
-            loading={state.loading}
-            searchBy={state.searchBy}
-            separator={state.separator}
-            clearable={state.clearable}
-            searchable={state.searchable}
-            create={state.create}
-            keepOpen={state.forceOpen}
-            dropdownHandle={state.handle}
-            dropdownHeight={state.dropdownHeight}
-            direction={state.direction}
-            multi={state.multi}
-            values={[]}
-            labelField={state.labelField}
-            valueField={state.valueField}
-            options={props.type}
-            dropdownGap={5}
-            keepSelectedInList={state.keepSelectedInList}
-            onDropdownOpen={() => undefined}
-            onDropdownClose={() => undefined}
-            onClearAll={() => undefined}
-            onSelectAll={() => undefined}
-            onChange={(values) => setValues(values)}
-            noDataLabel="No matches found"
-            closeOnSelect={state.closeOnSelect}
-            noDataRenderer={
-              state.noDataRenderer ? () => noDataRenderer() : undefined
-            }
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const StyledSelect = styled(Select)`
-  ${({ dropdownRenderer }) =>
-    dropdownRenderer &&
-    `
-		.react-dropdown-select-dropdown {
-			overflow: initial;
-		}
-	`}
-`;
-
-export default AddOpinionModal;
+export default connect(mapStateToProps, {
+  addOpinion,
+})(withRouter(AddOpinionModal));

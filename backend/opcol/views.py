@@ -23,6 +23,7 @@ class IsAuthenticatedButNotAdminOrReadOnly(permissions.IsAuthenticatedOrReadOnly
 
 # Create your views here.
 
+
 class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     # queryset = Product.objects.all()
@@ -48,9 +49,6 @@ class OpinionView(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
-
-    def get_opinions_of_product(self, product):
-        return Opinion.objects.filter(product__id=product)
 
     def get_queryset(self):
         """

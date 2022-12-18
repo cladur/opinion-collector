@@ -89,7 +89,7 @@ class Search extends Component {
 
         <Modal show={this.state.show} onHide={this.hideModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Add product</Modal.Title>
+            <Modal.Title>Add Product</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -127,7 +127,6 @@ class Search extends Component {
                 <Form.Label>Category</Form.Label>
                 <Form.Select
                   name="category"
-                  placeholder="Enter ingredients"
                   aria-label="Select category"
                   value={this.categories}
                   onChange={this.onChange}
