@@ -14,6 +14,8 @@ class Category(models.Model):
     parent = models.ForeignKey(
         "self", related_name="children", on_delete=models.CASCADE, null=True, blank=True)
 
+    is_active = models.BooleanField(default=True)
+
     def __str__(self):
         return self.name
 

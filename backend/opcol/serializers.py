@@ -48,8 +48,18 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'description',
+        fields = ('id', 'is_active', 'name', 'description',
                   'is_final', 'parent', 'children')
+
+
+class CategorySerializerForUser(CategorySerializer):
+    def to_representation(self, instance):
+        ret = super(CategorySerializer, self).to_representation(instance)
+        # check the request is list view or detail view
+        for child in ret['children']:
+            if child.get('is_active') is False:
+                ret['children'].remove(child)
+        return ret
 
 
 class SuggestionSerializer(serializers.ModelSerializer):

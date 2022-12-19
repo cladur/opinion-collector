@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, SuggestionSerializer, FeatureSerializer
+from .serializers import OpinionSerializer, ProductSerializer, CustomUserSerializer, CategorySerializer, CategorySerializerForUser, SuggestionSerializer, FeatureSerializer
 from .models import Opinion, Product, CustomUser, Category, Suggestion, Feature
 from rest_framework import permissions
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -82,8 +82,18 @@ class CustomUserView(viewsets.ModelViewSet):
 
 class CategoryView(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Category.objects.filter(parent__isnull=True)
     permission_classes = [IsAdminUserOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return CategorySerializer
+        return CategorySerializerForUser
+
+    def get_queryset(self):
+        queryset = Category.objects.filter(parent__isnull=True)
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(is_active=True)
+        return queryset
 
 
 class SuggestionView(viewsets.ModelViewSet):

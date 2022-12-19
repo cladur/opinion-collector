@@ -22,7 +22,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'is_final')
+    list_display = ('id', 'is_active', 'name', 'description', 'is_final')
 
 
 class SuggestionAdmin(admin.ModelAdmin):
