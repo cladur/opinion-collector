@@ -1,10 +1,12 @@
 from django.contrib import admin
 from .models import Opinion, Product, CustomUser, Category, Suggestion, Feature
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from simple_history.admin import SimpleHistoryAdmin
 
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'ingredients', 'image')
+class ProductAdmin(SimpleHistoryAdmin):
+    list_display = ('id', 'is_active', 'name',
+                    'description', 'ingredients', 'image')
 
 
 class OpinionAdmin(admin.ModelAdmin):

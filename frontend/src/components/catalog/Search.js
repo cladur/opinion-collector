@@ -43,7 +43,12 @@ class Search extends Component {
           <Card.Link href={"/products/" + product.id}>
             <Card.Img
               height={"200px"}
-              style={{ objectFit: "cover" }}
+              // style={{ objectFit: "cover" }}
+              style={
+                product.is_active
+                  ? { objectFit: "cover" }
+                  : { objectFit: "cover", filter: "grayscale(100%)" }
+              }
               variant="top"
               src={product.image}
             />

@@ -31,6 +31,8 @@ class ProductView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Product.objects.all()
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(is_active=True)
         category = self.request.query_params.get('category')
         if category is not None:
             queryset = queryset.filter(

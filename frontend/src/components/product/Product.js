@@ -51,6 +51,55 @@ class Product extends Component {
     }
   }
 
+  updateProductVisibility(is_active) {
+    return () => {
+      axios
+        .patch(
+          "/api/products/" + this.props.match.params.id + "/",
+          {
+            is_active: is_active,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          this.props.getProduct(this.props.match.params.id);
+        });
+    };
+  }
+
+  hideProductButton() {
+    if (isStaff() && isAuthenticated()) {
+      return (
+        <Button variant="danger" onClick={this.updateProductVisibility(false)}>
+          Hide Product
+        </Button>
+      );
+    }
+  }
+
+  unhideProductButton() {
+    if (isStaff() && isAuthenticated()) {
+      return (
+        <Button variant="success" onClick={this.updateProductVisibility(true)}>
+          Unhide Product
+        </Button>
+      );
+    }
+  }
+
+  visibilityButton() {
+    if (isStaff() && isAuthenticated()) {
+      if (this.props.products.products[0].is_active) {
+        return this.hideProductButton();
+      }
+      return this.unhideProductButton();
+    }
+  }
+
   displayFeatures(positive_features, negative_features, features) {
     if (positive_features.length === 0 && negative_features.length === 0) {
       return <p />;
@@ -125,6 +174,8 @@ class Product extends Component {
           <Col md="8" className="mx-auto">
             <br />
             {this.editProductButton()}
+            &nbsp; &nbsp;
+            {this.visibilityButton()}
             <h1 style={{ display: "flex", justifyContent: "center" }}>
               {product.name}
             </h1>
@@ -141,7 +192,15 @@ class Product extends Component {
                 {this.addSuggestionButton()}
               </Col>
               <Col>
-                <Image src={product.image} fluid="true" />
+                <Image
+                  src={product.image}
+                  fluid="true"
+                  style={
+                    product.is_active
+                      ? { objectFit: "cover" }
+                      : { objectFit: "cover", filter: "grayscale(100%)" }
+                  }
+                />
               </Col>
             </Row>
             <Row className="mt-5"></Row>
