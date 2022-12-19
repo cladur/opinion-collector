@@ -46,6 +46,8 @@ class AddCategoryModal extends Component {
     this.setState({ name: "" });
     this.setState({ parent: "" });
     this.setState({ show: false });
+
+    window.location.reload(false);
   };
 
   categoryOption(category) {

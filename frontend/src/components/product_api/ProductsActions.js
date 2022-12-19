@@ -65,7 +65,7 @@ export const addProduct = (note) => (dispatch) => {
 
 export const updateProduct = (id, note) => (dispatch) => {
   axios
-    .put("/api/products/" + id + "/", note, {
+    .patch("/api/products/" + id + "/", note, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

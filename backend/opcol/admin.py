@@ -26,7 +26,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'created_by', 'created_at', 'description')
+    list_display = ('id', 'is_active', 'product',
+                    'created_by', 'created_at', 'description')
 
 
 class FeatureAdmin(admin.ModelAdmin):

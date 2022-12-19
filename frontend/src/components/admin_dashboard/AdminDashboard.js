@@ -1,36 +1,97 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+
+import {
+  getSuggestions,
+  updateSuggestion,
+} from "../suggestion_api/SuggestionActions";
+
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { Container } from "react-bootstrap";
-import { logout } from "../login/LoginActions";
 
 class AdminDashboard extends Component {
-  onLogout = () => {
-    this.props.logout();
-  };
+  componentDidMount() {
+    this.props.getSuggestions();
+  }
+
+  resolveSuggestion(suggestion) {
+    this.props.updateSuggestion(suggestion.id, { is_active: false });
+    setTimeout(() => {
+      this.props.getSuggestions();
+    }, 100);
+  }
+
+  displaySuggestions(suggestions) {
+    if (suggestions) {
+      return suggestions.map((suggestion) => {
+        return (
+          <div>
+            <Card key={suggestion.id}>
+              <Card.Body>
+                <Card.Link href={"/products/" + suggestion.product}>
+                  <Card.Title>{suggestion.product_name}</Card.Title>
+                </Card.Link>
+                <Card.Subtitle>
+                  by {suggestion.username} on{" "}
+                  {new Date(suggestion.created_at).toLocaleDateString()}
+                </Card.Subtitle>
+                <Card.Text>{suggestion.description}</Card.Text>
+                <Button
+                  variant="success"
+                  onClick={() => {
+                    this.resolveSuggestion(suggestion);
+                  }}
+                >
+                  Resolve
+                </Button>
+              </Card.Body>
+            </Card>
+            <br />
+          </div>
+        );
+      });
+    } else {
+      return <h4>No suggestions</h4>;
+    }
+  }
 
   render() {
+    const { suggestions } = this.props.suggestions;
+    console.log(suggestions);
     return (
-      <div>
-        <Container>
-          <h1>DASHBOARD WIP</h1>
-        </Container>
-      </div>
+      <Container>
+        <Row>
+          <Col md="8" className="mx-auto">
+            <br />
+            <h1 style={{ display: "flex", justifyContent: "center" }}>
+              Suggestions
+            </h1>
+            <br />
+          </Col>
+          {this.displaySuggestions(suggestions)}
+        </Row>
+      </Container>
     );
   }
 }
 
 AdminDashboard.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  getSuggestions: PropTypes.func.isRequired,
+  updateSuggestion: PropTypes.func.isRequired,
+  suggestions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  suggestions: state.suggestions,
 });
 
 export default connect(mapStateToProps, {
-  logout,
+  getSuggestions,
+  updateSuggestion,
 })(withRouter(AdminDashboard));

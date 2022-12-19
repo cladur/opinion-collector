@@ -63,6 +63,12 @@ class CategorySerializerForUser(CategorySerializer):
 
 
 class SuggestionSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(
+        source='created_by.username', read_only=True)
+    product_name = serializers.CharField(source='product.name', read_only=True)
+
     class Meta:
         model = Suggestion
-        fields = ('id', 'product', 'created_by', 'created_at', 'description')
+        read_only_fields = ('id', 'created_at', 'created_by')
+        fields = ('id', 'is_active', 'username', 'product', 'product_name',
+                  'created_by', 'created_at', 'description')

@@ -104,5 +104,15 @@ class CategoryView(viewsets.ModelViewSet):
 
 class SuggestionView(viewsets.ModelViewSet):
     serializer_class = SuggestionSerializer
-    queryset = Suggestion.objects.all()
-    permission_classes = [IsAuthenticatedButNotAdminOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+    def get_queryset(self):
+        queryset = Suggestion.objects.all()
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(created_by=self.request.user)
+        is_active = self.request.query_params.get('is_active')
+        if is_active is not None:
+            queryset = queryset.filter(is_active=is_active)
+        return queryset

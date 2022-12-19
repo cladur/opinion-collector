@@ -77,7 +77,7 @@ class Suggestion(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(
         max_length=600, default="This suggestion is empty.")
-    is_considered = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.product.name

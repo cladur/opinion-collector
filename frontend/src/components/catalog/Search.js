@@ -28,7 +28,12 @@ class Search extends Component {
 
   addProductButton() {
     if (isStaff()) {
-      return <AddProductModal />;
+      return (
+        <>
+          <AddProductModal />
+          &nbsp; &nbsp;
+        </>
+      );
     }
   }
 
@@ -192,7 +197,6 @@ class Search extends Component {
           <Col xs={isStaff() ? 3 : 2}>{this.displayCategories(categories)}</Col>
           <Col>
             {this.addProductButton()}
-            &nbsp; &nbsp;
             {this.addCategoryButton()}
             <InputGroup className="mb-3 mt-3">
               <InputGroup.Text id="basic-addon1">#</InputGroup.Text>

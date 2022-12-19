@@ -17,6 +17,7 @@ import Image from "react-bootstrap/Image";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import axios from "axios";
+import AddSuggestionModal from "./AddSuggestionModal";
 
 class Product extends Component {
   componentDidMount() {
@@ -41,7 +42,7 @@ class Product extends Component {
 
   addSuggestionButton() {
     if (!isStaff() && isAuthenticated()) {
-      return <Button variant="primary">Suggest Change</Button>;
+      return <AddSuggestionModal />;
     }
   }
 
