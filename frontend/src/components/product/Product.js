@@ -7,7 +7,9 @@ import { withRouter } from "react-router-dom";
 import { getProduct } from "../product_api/ProductsActions";
 import { getOpinions } from "../opinion_api/OpinionActions";
 import { getFeatures } from "../feature_api/FeatureActions";
+import { getCategories } from "../category_api/CategoryActions";
 import AddOpinionModal from "./AddOpinionModal";
+import EditProductModal from "./EditProductModal";
 import Button from "react-bootstrap/Button";
 import { isStaff, isAuthenticated } from "../../utils/Utils";
 import { Container } from "react-bootstrap";
@@ -20,6 +22,7 @@ class Product extends Component {
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
     this.props.getOpinions(this.props.match.params.id);
+    this.props.getCategories();
     this.props.getFeatures();
     this.updateFeatures(this.props.match.params.id);
   }
@@ -30,9 +33,15 @@ class Product extends Component {
     });
   }
 
+  editProductButton() {
+    if (isStaff() && isAuthenticated()) {
+      return <EditProductModal />;
+    }
+  }
+
   addSuggestionButton() {
     if (!isStaff() && isAuthenticated()) {
-      return <Button variant="primary">Suggest change</Button>;
+      return <Button variant="primary">Suggest Change</Button>;
     }
   }
 
@@ -61,7 +70,6 @@ class Product extends Component {
 
     return (
       <div>
-        Features
         <ListGroup>
           {positive_features_list}
           {negative_features_list}
@@ -105,21 +113,22 @@ class Product extends Component {
     const { opinions } = this.props.opinions;
     const { features } = this.props.features;
 
-    const product = products[0];
-
-    console.log(opinions);
-
     if (products.length === 0) {
       return;
     }
+
+    const product = products[0];
 
     return (
       <Container>
         <Row>
           <Col md="8" className="mx-auto">
+            <br />
+            {this.editProductButton()}
             <h1 style={{ display: "flex", justifyContent: "center" }}>
               {product.name}
             </h1>
+            <br />
             <Row>
               <Col>
                 <h2>Description</h2>
@@ -128,6 +137,7 @@ class Product extends Component {
                 <h2>Ingredients</h2>
                 {product.ingredients}
                 <br />
+                <br />
                 {this.addSuggestionButton()}
               </Col>
               <Col>
@@ -135,6 +145,7 @@ class Product extends Component {
               </Col>
             </Row>
             <Row className="mt-5"></Row>
+            <br />
             <h2>Opinions {this.addOpinionButton()}</h2>
             {this.displayOpinions(opinions, features)}
           </Col>
@@ -151,16 +162,20 @@ Product.propTypes = {
   opinions: PropTypes.object.isRequired,
   getFeatures: PropTypes.func.isRequired,
   features: PropTypes.object.isRequired,
+  getCategories: PropTypes.func.isRequired,
+  categories: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   products: state.products,
   opinions: state.opinions,
   features: state.features,
+  categories: state.categories,
 });
 
 export default connect(mapStateToProps, {
   getProduct,
   getOpinions,
   getFeatures,
+  getCategories,
 })(withRouter(Product));

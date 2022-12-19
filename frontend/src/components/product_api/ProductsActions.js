@@ -1,6 +1,12 @@
 import axios from "axios";
+import { push } from "connected-react-router";
 import { toastOnError } from "../../utils/Utils";
-import { GET_PRODUCT, GET_PRODUCTS, ADD_PRODUCT } from "./ProductsTypes";
+import {
+  GET_PRODUCT,
+  GET_PRODUCTS,
+  ADD_PRODUCT,
+  UPDATE_PRODUCT,
+} from "./ProductsTypes";
 
 export const getProduct = (id) => (dispatch) => {
   axios
@@ -49,6 +55,24 @@ export const addProduct = (note) => (dispatch) => {
     .then((response) => {
       dispatch({
         type: ADD_PRODUCT,
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      toastOnError(error);
+    });
+};
+
+export const updateProduct = (id, note) => (dispatch) => {
+  axios
+    .put("/api/products/" + id + "/", note, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      dispatch({
+        type: UPDATE_PRODUCT,
         payload: response.data,
       });
     })
