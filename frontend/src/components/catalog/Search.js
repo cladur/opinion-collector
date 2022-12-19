@@ -3,12 +3,15 @@ import React, { Component } from "react";
 import { Card, Container, Form, InputGroup, Row, Col } from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { isStaff } from "../../utils/Utils";
+import { isStaff, isAuthenticated } from "../../utils/Utils";
 import { getProducts, addProduct } from "../product_api/ProductsActions";
-import { getCategories } from "../category_api/CategoryActions";
+import { getCategories, updateCategory } from "../category_api/CategoryActions";
 import AddProductModal from "./AddProductModal";
+import AddCategoryModal from "./AddCategoryModal";
+import EditCategoryModal from "./EditCategoryModal";
 
 class Search extends Component {
   constructor() {
@@ -18,6 +21,10 @@ class Search extends Component {
       search_category: "",
     };
   }
+  componentDidMount() {
+    this.props.getProducts(this.state.search_name, this.state.search_category);
+    this.props.getCategories();
+  }
 
   addProductButton() {
     if (isStaff()) {
@@ -25,9 +32,10 @@ class Search extends Component {
     }
   }
 
-  componentDidMount() {
-    this.props.getProducts(this.state.search_name, this.state.search_category);
-    this.props.getCategories();
+  addCategoryButton(category) {
+    if (isStaff()) {
+      return <AddCategoryModal />;
+    }
   }
 
   onSearchNameChange = (e) => {
@@ -43,7 +51,6 @@ class Search extends Component {
           <Card.Link href={"/products/" + product.id}>
             <Card.Img
               height={"200px"}
-              // style={{ objectFit: "cover" }}
               style={
                 product.is_active
                   ? { objectFit: "cover" }
@@ -93,6 +100,43 @@ class Search extends Component {
     return "";
   }
 
+  updateCategoryVisibility(category, is_active) {
+    this.props.updateCategory(category.id, { is_active: is_active });
+    category.is_active = is_active;
+    setTimeout(() => {
+      this.forceUpdate();
+    }, 100);
+  }
+
+  categoryVisibilityButton(category) {
+    return (
+      <Button
+        size="sm"
+        style={{ height: "30px" }}
+        onClick={(e) => {
+          e.stopPropagation();
+          this.updateCategoryVisibility(category, !category.is_active);
+        }}
+        variant={category.is_active ? "danger" : "success"}
+      >
+        {category.is_active ? "Hide" : "Show"}
+      </Button>
+    );
+  }
+
+  displayCategoryButtons(category) {
+    if (!isStaff()) {
+      return;
+    }
+    return (
+      <div style={{ marginLeft: "auto" }}>
+        <EditCategoryModal category={category} />
+        &nbsp;
+        {this.categoryVisibilityButton(category)}
+      </div>
+    );
+  }
+
   displayCategory(category, indent) {
     return (
       <ListGroup
@@ -105,7 +149,10 @@ class Search extends Component {
           variant={this.isCategorySelected(category.id)}
           onClick={() => this.setCategoryFilter(category.id)}
         >
-          {category.name}
+          <div style={{ display: "flex" }}>
+            {category.name}
+            {this.displayCategoryButtons(category)}
+          </div>
         </ListGroup.Item>
         {this.displayCategories(category.children, indent + 1)}
       </ListGroup>
@@ -132,7 +179,6 @@ class Search extends Component {
   };
 
   filterProducts = () => {
-    console.log(this.state);
     this.props.getProducts(this.state.search_name, this.state.search_category);
   };
 
@@ -143,9 +189,11 @@ class Search extends Component {
       <Container>
         <br />
         <Row>
-          <Col xs={2}>{this.displayCategories(categories)}</Col>
+          <Col xs={isStaff() ? 3 : 2}>{this.displayCategories(categories)}</Col>
           <Col>
             {this.addProductButton()}
+            &nbsp; &nbsp;
+            {this.addCategoryButton()}
             <InputGroup className="mb-3 mt-3">
               <InputGroup.Text id="basic-addon1">#</InputGroup.Text>
               <Form.Control
@@ -170,6 +218,7 @@ Search.propTypes = {
   addProduct: PropTypes.func.isRequired,
   products: PropTypes.object.isRequired,
   categories: PropTypes.object.isRequired,
+  updateCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -181,4 +230,5 @@ export default connect(mapStateToProps, {
   getProducts,
   getCategories,
   addProduct,
+  updateCategory,
 })(withRouter(Search));

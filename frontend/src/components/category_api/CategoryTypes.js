@@ -1,2 +1,3 @@
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const ADD_CATEGORY = "ADD_CATEGORY";
+export const UPDATE_CATEGORY = "UPDATE_CATEGORY";

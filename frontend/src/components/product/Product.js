@@ -71,32 +71,17 @@ class Product extends Component {
     };
   }
 
-  hideProductButton() {
-    if (isStaff() && isAuthenticated()) {
-      return (
-        <Button variant="danger" onClick={this.updateProductVisibility(false)}>
-          Hide Product
-        </Button>
-      );
-    }
-  }
-
-  unhideProductButton() {
-    if (isStaff() && isAuthenticated()) {
-      return (
-        <Button variant="success" onClick={this.updateProductVisibility(true)}>
-          Unhide Product
-        </Button>
-      );
-    }
-  }
-
   visibilityButton() {
     if (isStaff() && isAuthenticated()) {
-      if (this.props.products.products[0].is_active) {
-        return this.hideProductButton();
-      }
-      return this.unhideProductButton();
+      var is_active = this.props.products.products[0].is_active;
+      return (
+        <Button
+          variant={is_active ? "danger" : "success"}
+          onClick={this.updateProductVisibility(!is_active)}
+        >
+          {is_active ? "Hide Product" : "Unhide Product"}
+        </Button>
+      );
     }
   }
 

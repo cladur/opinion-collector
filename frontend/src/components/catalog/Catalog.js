@@ -14,13 +14,7 @@ class Catalog extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <Container>
-          <Search />
-        </Container>
-      </div>
-    );
+    return <Search />;
   }
 }
 

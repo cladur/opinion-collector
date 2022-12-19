@@ -90,7 +90,13 @@ class CategoryView(viewsets.ModelViewSet):
         return CategorySerializerForUser
 
     def get_queryset(self):
-        queryset = Category.objects.filter(parent__isnull=True)
+        queryset = Category.objects.all()
+        has_parent = self.request.query_params.get('has_parent')
+        if has_parent is not None:
+            if has_parent == 'True':
+                queryset = queryset.filter(parent__isnull=False)
+            if has_parent == 'False':
+                queryset = queryset.filter(parent__isnull=True)
         if not self.request.user.is_staff:
             queryset = queryset.filter(is_active=True)
         return queryset
