@@ -86,6 +86,13 @@ class Product extends Component {
     }
   }
 
+  displayFeature(feature_id, features) {
+    const feature = features.find((x) => x.id === feature_id);
+    if (feature) {
+      return feature.name;
+    }
+  }
+
   displayFeatures(positive_features, negative_features, features) {
     if (positive_features.length === 0 && negative_features.length === 0) {
       return <p />;
@@ -93,13 +100,13 @@ class Product extends Component {
 
     const positive_features_list = positive_features.map((id) => (
       <ListGroup.Item key={id} variant="success">
-        {features.find((x) => x.id === id).name}
+        {this.displayFeature(id, features)}
       </ListGroup.Item>
     ));
 
     const negative_features_list = negative_features.map((id) => (
       <ListGroup.Item key={id} variant="danger">
-        {features.find((x) => x.id === id).name}
+        {this.displayFeature(id, features)}
       </ListGroup.Item>
     ));
 

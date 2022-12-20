@@ -41,7 +41,7 @@ export const addOpinion = (note) => (dispatch) => {
       });
     })
     .catch((error) => {
-      toastOnError(error);
-      // toastOnError("Unable to add opinion!");
+      // toastOnError(error);
+      toastOnError("Unable to add opinion!");
     });
 };
